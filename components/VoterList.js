@@ -3,7 +3,7 @@ import firebase from "../firebase/clientApp"
 
 import Image from 'next/image'
 
-function VoterList({ id, vote }) {
+function VoterList({ id, vote, key }) {
 
     const [value, loading, error] = useDocument(firebase.firestore().doc(`user/${id}`))
 

@@ -23,7 +23,7 @@ export default function Home() {
 
       {user && (
         <>
-          <div className={styles.container}>
+          <div className={styles.container} id='fruit-buttons'>
             <h1>Choice your favorite fruit</h1>
             <button onClick={() => addVoteDocument('Watermelon')} className={styles.btn}>🍉</button>
             <button onClick={() => addVoteDocument('Tangerine')} className={styles.btn}>🍊</button>
@@ -32,7 +32,7 @@ export default function Home() {
             <button onClick={() => addVoteDocument('Grapes')} className={styles.btn}>🍇</button>
             <button onClick={() => addVoteDocument('Red Apple')} className={styles.btn}>🍎</button>
           </div>
-          <div>
+          <div id='votes'>
             <h2>Votes:</h2>
             <h4>Watermelon: {votes?.docs?.filter(d => d.data().vote === 'Watermelon').length}</h4>
             <h4>Tangerine:  {votes?.docs?.filter(d => d.data().vote === 'Tangerine').length}</h4>
