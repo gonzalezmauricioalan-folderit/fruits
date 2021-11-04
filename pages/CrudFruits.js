@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { useCollection } from 'react-firebase-hooks/firestore'
+import firebase from '../firebase/clientApp'
 
 const CrudFruits = () => {
+    const [fruits, fruitsLoading, error] = useCollection(firebase.firestore().collection('fruits'), {})
     return (
         <div>
             <table>
@@ -13,17 +15,26 @@ const CrudFruits = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <th>Red apple</th>
-                    <th>🍎</th>
-                    <th>
-                        <button>X</button>
-                        <button>U</button>
-                    </th>
+                    {fruits?.docs?.map(fruit =>
+                    (
+
+                        <tr key={fruit.id}>
+                            <th>{fruit.data().name}</th>
+                            <th>{fruit.data().emoji}</th>
+                            <th>
+                                <button>X</button>
+                                <button>U</button>
+                            </th>
+                        </tr>
+                    )
+                    )}
                 </tbody>
                 <tfoot>
-                    <th>
-                        <button>+</button>
-                    </th>
+                    <tr>
+                        <th>
+                            <button>+</button>
+                        </th>
+                    </tr>
                 </tfoot>
             </table>
             <Link href="/">
