@@ -12,6 +12,7 @@ import Link from 'next/link'
 export default function Home() {
   const [user, loading, error] = useAuthState(firebase.auth())
   const [votes, votesLoading, votesError] = useCollection(firebase.firestore().collection('votes'), {})
+  const [fruits, fruitsLoading, fruitsError] = useCollection(firebase.firestore().collection('fruits'), {})
   console.log(`Loading: ${loading}, user: ${user}`);
 
   const db = firebase.firestore();
@@ -27,21 +28,21 @@ export default function Home() {
         <>
           <div className={styles.container} id='fruit-buttons'>
             <h1>Choice your favorite fruit</h1>
-            <button onClick={() => addVoteDocument('Watermelon')} className={styles.btn}>🍉</button>
-            <button onClick={() => addVoteDocument('Tangerine')} className={styles.btn}>🍊</button>
-            <button onClick={() => addVoteDocument('Banana')} className={styles.btn}>🍌</button>
-            <button onClick={() => addVoteDocument('Mango')} className={styles.btn}>🥭</button>
-            <button onClick={() => addVoteDocument('Grapes')} className={styles.btn}>🍇</button>
-            <button onClick={() => addVoteDocument('Red Apple')} className={styles.btn}>🍎</button>
+            {
+              fruits?.docs?.map(fruit => (
+                <button key={fruit.id} onClick={() => addVoteDocument(fruit.data().name)}
+                  className={styles.btn}>{fruit.data().emoji}</button>
+              ))
+            }
           </div>
           <div id='votes'>
             <h2>Votes:</h2>
-            <h4>Watermelon: {votes?.docs?.filter(d => d.data().vote === 'Watermelon').length}</h4>
-            <h4>Tangerine:  {votes?.docs?.filter(d => d.data().vote === 'Tangerine').length}</h4>
-            <h4>Banana:  {votes?.docs?.filter(d => d.data().vote === 'Banana').length}</h4>
-            <h4>Mango:  {votes?.docs?.filter(d => d.data().vote === 'Mango').length}</h4>
-            <h4>Grapes:  {votes?.docs?.filter(d => d.data().vote === 'Grapes').length}</h4>
-            <h4>Red Apple: {votes?.docs?.filter(d => d.data().vote === 'Red Apple').length}</h4>
+            {
+              fruits?.docs?.map(fruit => (
+                <h4 key={fruit.id}>
+                  {fruit.data().name}: {votes?.docs?.filter(d => d.data().vote === fruit.data().name).length}</h4>
+              ))
+            }
           </div>
           {votes?.docs?.map(doc => (
             <>
