@@ -4,6 +4,7 @@ import firebase from "../firebase/clientApp";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Auth from '../components/Auth';
+import VoterList from '../components/VoterList';
 
 
 export default function Home() {
@@ -14,9 +15,6 @@ export default function Home() {
   const db = firebase.firestore();
   const addVoteDocument = async (vote) => {
     await db.collection('votes').doc(user.uid).set({ vote })
-  }
-  if (!votesLoading && votes) {
-    votes.docs.map((doc) => console.log(doc.data()));
   }
   return (
     <>
@@ -43,6 +41,11 @@ export default function Home() {
             <h4>Grapes:  {votes?.docs?.filter(d => d.data().vote === 'Grapes').length}</h4>
             <h4>Red Apple: {votes?.docs?.filter(d => d.data().vote === 'Red Apple').length}</h4>
           </div>
+          {votes?.docs?.map(doc => (
+            <>
+              <VoterList id={doc.id} key={doc.id} vote={doc.data().vote} />
+            </>
+          ))}
         </>)}
     </>
   )
