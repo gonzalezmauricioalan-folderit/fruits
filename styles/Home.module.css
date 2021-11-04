@@ -2,6 +2,12 @@
   padding: 0 2rem;
 }
 
+.btn {
+  padding: 0 2rem;
+  margin: 1rem;
+  font-size: 32px;
+}
+
 .main {
   min-height: 100vh;
   padding: 4rem 0;
