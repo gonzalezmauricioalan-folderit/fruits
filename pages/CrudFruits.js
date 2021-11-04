@@ -12,12 +12,18 @@ const CrudFruits = () => {
     const db = firebase.firestore()
     const [newFruitName, setNewFruitName] = useState('')
     const [newFruitEmoji, setNewFruitEmoji] = useState('')
+
     const addNewFruit = async (e) => {
         e.preventDefault()
         const a = await db.collection('fruits').add({emoji: newFruitEmoji, name: newFruitName })
         setNewFruitEmoji('')
         setNewFruitName('')
     }
+
+    const deleteFruit = async (fruitId) => {
+        await db.collection('fruits').doc(fruitId).delete()
+    }
+
     const [fruits, fruitsLoading, error] = useCollection(firebase.firestore().collection('fruits'), {})
 
     return (
@@ -37,8 +43,9 @@ const CrudFruits = () => {
                             <th>{fruit.data().name}</th>
                             <th>{fruit.data().emoji}</th>
                             <th>
-                                <button><FaTrash style={{ color: '#C70000' }} /></button>
-                                <button><FaPen style={{ color: '#6e8c91' }} /></button>
+                                <button key={`delete-${fruit.id}`} onClick={() =>deleteFruit(fruit.id)}>
+                                    <FaTrash style={{ color: '#C70000' }} /></button>
+                                <button key={`update-${fruit.id}`}><FaPen style={{ color: '#6e8c91' }} /></button>
                             </th>
                         </tr>
                     )
