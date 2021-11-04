@@ -6,6 +6,8 @@ import { useCollection } from 'react-firebase-hooks/firestore'
 import Auth from '../components/Auth';
 import VoterList from '../components/VoterList';
 
+import Link from 'next/link'
+
 
 export default function Home() {
   const [user, loading, error] = useAuthState(firebase.auth())
@@ -46,6 +48,9 @@ export default function Home() {
               <VoterList id={doc.id} key={doc.id} vote={doc.data().vote} />
             </>
           ))}
+          <Link href="/CrudFruits" passHref>
+            <button>CRUD of fruits</button>
+          </Link>
         </>)}
     </>
   )
