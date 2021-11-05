@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
-import fruits from './fruits'
+import { fruitReducer } from './fruits'
 
 const reducer = combineReducers({
-    fruits
+  fruits: fruitReducer
 })
 const store = configureStore({
   reducer,

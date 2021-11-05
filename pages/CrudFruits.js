@@ -7,6 +7,10 @@ import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
 import { useState } from 'react';
+import { addFruit } from '../store/fruits';
+
+import { useSelector, useDispatch } from 'react-redux'
+
 
 const CrudFruits = () => {
     const db = firebase.firestore()
@@ -17,9 +21,13 @@ const CrudFruits = () => {
     const [editFruitEmoji, setEditFruitEmoji] = useState('')
     const [hideUpdateForm, setHideUpdateForm] = useState(true)
 
-    const addNewFruit = async (e) => {
+    const dispatch = useDispatch()
+
+    const addNewFruit = (e) => {
         e.preventDefault()
-        const a = await db.collection('fruits').add({ emoji: newFruitEmoji, name: newFruitName })
+        // const a = await db.collection('fruits').add({ emoji: newFruitEmoji, name: newFruitName })
+        const newFruit = { emoji: newFruitEmoji, name: newFruitName }
+        dispatch(addFruit({ newFruit }))
         setNewFruitEmoji('')
         setNewFruitName('')
     }
@@ -28,7 +36,7 @@ const CrudFruits = () => {
         await db.collection('fruits').doc(fruitId).delete()
     }
 
-    const showEditFruit = ({id, name, emoji}) => {
+    const showEditFruit = ({ id, name, emoji }) => {
         setHideUpdateForm(false)
         setEditFruitId(id)
         setEditFruitEmoji(emoji)
@@ -37,7 +45,7 @@ const CrudFruits = () => {
 
     const editFruit = async (e) => {
         e.preventDefault()
-        await db.collection('fruits').doc(editFruitId).set({name: editFruitName, emoji: editFruitEmoji})
+        await db.collection('fruits').doc(editFruitId).set({ name: editFruitName, emoji: editFruitEmoji })
     }
 
     const [fruits, fruitsLoading, error] = useCollection(firebase.firestore().collection('fruits'), {})
@@ -62,7 +70,8 @@ const CrudFruits = () => {
                                 <button key={`delete-${fruit.id}`} onClick={() => deleteFruit(fruit.id)}>
                                     <FaTrash style={{ color: '#C70000' }} /></button>
                                 <button key={`update-${fruit.id}`} onClick={() => showEditFruit({
-                                    id: fruit.id, name: fruit.data().name, emoji: fruit.data().emoji })}>
+                                    id: fruit.id, name: fruit.data().name, emoji: fruit.data().emoji
+                                })}>
                                     <FaPen style={{ color: '#6e8c91' }} /></button>
                             </th>
                         </tr>
@@ -99,7 +108,7 @@ const CrudFruits = () => {
                     id="newFruitEmoji" onChange={(e) => setNewFruitEmoji(e.target.value)}
                     value={editFruitEmoji} />
                 <input type="submit" value="Edit Fruit" />
-                <button onClick={(e) => {e.preventDefault(); setHideUpdateForm(true) }}>Cancel</button>
+                <button onClick={(e) => { e.preventDefault(); setHideUpdateForm(true) }}>Cancel</button>
             </form>
             <Link href="/">
                 <a >&#60;- Back to home</a>

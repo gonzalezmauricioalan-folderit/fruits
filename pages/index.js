@@ -16,7 +16,7 @@ export default function Home() {
   const [votes, votesLoading, votesError] = useCollection(firebase.firestore().collection('votes'), {})
   // const [fruits, fruitsLoading, fruitsError] = useCollection(firebase.firestore().collection('fruits'), {})
   const { fruits, isLoading } = useSelector(state => state.fruits);
-  console.log('fruits :>> ', fruits);
+  console.log('fruits111 :>> ', fruits);
   console.log('isLoading :>> ', isLoading);
   console.log(`Loading: ${loading}, user: ${user}`);
 
@@ -50,14 +50,15 @@ export default function Home() {
             }
           </div>
           {votes?.docs?.map(doc => (
-            <>
-              <VoterList id={doc.id} key={doc.id} vote={doc.data().vote} />
-            </>
-          ))}
-          <Link href="/CrudFruits" passHref>
-            <button>CRUD of fruits</button>
-          </Link>
-        </>)}
+        <>
+          <VoterList id={doc.id} key={doc.id} vote={doc.data().vote} />
+        </>
+      ))}
+      <Link href="/CrudFruits" passHref>
+        <button>CRUD of fruits</button>
+      </Link>
+    </>)
+}
     </>
   )
 }

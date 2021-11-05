@@ -6,27 +6,35 @@ const slice = createSlice({
         fruits: [{ name: 'Red', emoji: '¢' }],
     },
     reducers: {
-        showFruits: (state, action) => {
-            state.fruits = action.payload;
+        addFruit: (state, action) => {
+            const newFruit = action.payload.newFruit;
+            const id = Math.floor(Math.random()*1000)
+            console.log(`action`, action)
+            console.log(`newFruit`, newFruit)
+            newFruit.id = id;
+            state.fruits.push(newFruit)
         },
 
     },
 });
-export default slice.reducer
 
-//Actions
-const { showFruits } = slice.actions
-export const getFruits = () => async dispatch => {
-    try {
-        // const res = await api.post('/api/auth/login/', { fruitName, password })
-        const initialState = {
-            fruits: [{ name: 'Red', emoji: '¢', id:'asdnasj14134' }],
-        }
-        dispatch(showFruits(initialState));
-    } catch (e) {
-        return console.error(e.message);
-    }
-}
+export const { addFruit } = slice.actions
+
+export const fruitReducer = slice.reducer
+
+// //Actions
+// const { showFruits } = slice.actions
+// export const getFruits = () => async dispatch => {
+//     try {
+//         // const res = await api.post('/api/auth/login/', { fruitName, password })
+//         const initialState = {
+//             fruits: [{ name: 'Red', emoji: '¢', id:'asdnasj14134' }],
+//         }
+//         dispatch(showFruits(initialState));
+//     } catch (e) {
+//         return console.error(e.message);
+//     }
+// }
 
 // export const logout = () => async dispatch => {
 //   try {
