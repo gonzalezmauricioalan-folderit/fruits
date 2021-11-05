@@ -1,8 +1,5 @@
 import Link from 'next/link'
 
-import { useCollection } from 'react-firebase-hooks/firestore'
-import firebase from '../firebase/clientApp'
-
 import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
@@ -13,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 
 const CrudFruits = () => {
-    const db = firebase.firestore()
+    // const db = firebase.firestore()
     const [newFruitName, setNewFruitName] = useState('')
     const [newFruitEmoji, setNewFruitEmoji] = useState('')
     const [editFruitId, setEditFruitId] = useState('')
@@ -64,7 +61,7 @@ const CrudFruits = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {fruits.map(fruit =>
+                    {fruits?.map(fruit =>
                     (
                         <tr key={fruit.id}>
                             <th>{fruit.name}</th>

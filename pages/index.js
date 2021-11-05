@@ -5,20 +5,25 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Auth from '../components/Auth';
 import VoterList from '../components/VoterList';
+import { useEffect } from 'react';
 
 import Link from 'next/link'
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getFruitsFromFirestore } from '../store/fruits';
 
 
 export default function Home() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getFruitsFromFirestore())
+  }, [dispatch])
+
   const [user, loading, error] = useAuthState(firebase.auth())
   const [votes, votesLoading, votesError] = useCollection(firebase.firestore().collection('votes'), {})
   // const [fruits, fruitsLoading, fruitsError] = useCollection(firebase.firestore().collection('fruits'), {})
   const { fruits, isLoading } = useSelector(state => state.fruits);
-  console.log('fruits111 :>> ', fruits);
-  console.log('isLoading :>> ', isLoading);
-  console.log(`Loading: ${loading}, user: ${user}`);
 
   const db = firebase.firestore();
   const addVoteDocument = async (vote) => {
@@ -34,7 +39,7 @@ export default function Home() {
           <div className={styles.container} id='fruit-buttons'>
             <h1>Choice your favorite fruit</h1>
             {
-              fruits.map(fruit => (
+              fruits?.map(fruit => (
                 <button key={fruit.id} onClick={() => addVoteDocument(fruit.name)}
                   className={styles.btn}>{fruit.emoji}</button>
               ))
@@ -50,15 +55,15 @@ export default function Home() {
             }
           </div>
           {votes?.docs?.map(doc => (
-        <>
-          <VoterList id={doc.id} key={doc.id} vote={doc.data().vote} />
-        </>
-      ))}
-      <Link href="/CrudFruits" passHref>
-        <button>CRUD of fruits</button>
-      </Link>
-    </>)
-}
+            <>
+              <VoterList id={doc.id} key={doc.id} vote={doc.data().vote} />
+            </>
+          ))}
+          <Link href="/CrudFruits" passHref>
+            <button>CRUD of fruits</button>
+          </Link>
+        </>)
+      }
     </>
   )
 }
