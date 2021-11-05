@@ -3,14 +3,12 @@ import { createSlice } from '@reduxjs/toolkit'
 const slice = createSlice({
     name: 'fruits',
     initialState: {
-        fruits: [{ name: 'Red', emoji: '¢' }],
+        fruits: [{ name: 'Red', emoji: '¢', id: 1 }],
     },
     reducers: {
         addFruit: (state, action) => {
             const newFruit = action.payload.newFruit;
             const id = Math.floor(Math.random()*1000)
-            console.log(`action`, action)
-            console.log(`newFruit`, newFruit)
             newFruit.id = id;
             state.fruits.push(newFruit)
         },

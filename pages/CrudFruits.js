@@ -21,6 +21,7 @@ const CrudFruits = () => {
     const [editFruitEmoji, setEditFruitEmoji] = useState('')
     const [hideUpdateForm, setHideUpdateForm] = useState(true)
 
+    const {fruits} = useSelector(state => state.fruits)
     const dispatch = useDispatch()
 
     const addNewFruit = (e) => {
@@ -48,7 +49,7 @@ const CrudFruits = () => {
         await db.collection('fruits').doc(editFruitId).set({ name: editFruitName, emoji: editFruitEmoji })
     }
 
-    const [fruits, fruitsLoading, error] = useCollection(firebase.firestore().collection('fruits'), {})
+    // const [fruits, fruitsLoading, error] = useCollection(firebase.firestore().collection('fruits'), {})
 
     return (
         <div>
@@ -61,11 +62,11 @@ const CrudFruits = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {fruits?.docs?.map(fruit =>
+                    {fruits.map(fruit =>
                     (
                         <tr key={fruit.id}>
-                            <th>{fruit.data().name}</th>
-                            <th>{fruit.data().emoji}</th>
+                            <th>{fruit.name}</th>
+                            <th>{fruit.emoji}</th>
                             <th>
                                 <button key={`delete-${fruit.id}`} onClick={() => deleteFruit(fruit.id)}>
                                     <FaTrash style={{ color: '#C70000' }} /></button>
