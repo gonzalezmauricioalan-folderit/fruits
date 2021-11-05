@@ -8,11 +8,16 @@ import VoterList from '../components/VoterList';
 
 import Link from 'next/link'
 
+import { useSelector } from "react-redux";
+
 
 export default function Home() {
   const [user, loading, error] = useAuthState(firebase.auth())
   const [votes, votesLoading, votesError] = useCollection(firebase.firestore().collection('votes'), {})
-  const [fruits, fruitsLoading, fruitsError] = useCollection(firebase.firestore().collection('fruits'), {})
+  // const [fruits, fruitsLoading, fruitsError] = useCollection(firebase.firestore().collection('fruits'), {})
+  const { fruits, isLoading } = useSelector(state => state.fruits);
+  console.log('fruits :>> ', fruits);
+  console.log('isLoading :>> ', isLoading);
   console.log(`Loading: ${loading}, user: ${user}`);
 
   const db = firebase.firestore();
@@ -29,9 +34,9 @@ export default function Home() {
           <div className={styles.container} id='fruit-buttons'>
             <h1>Choice your favorite fruit</h1>
             {
-              fruits?.docs?.map(fruit => (
-                <button key={fruit.id} onClick={() => addVoteDocument(fruit.data().name)}
-                  className={styles.btn}>{fruit.data().emoji}</button>
+              fruits.map(fruit => (
+                <button key={fruit.id} onClick={() => addVoteDocument(fruit.name)}
+                  className={styles.btn}>{fruit.emoji}</button>
               ))
             }
           </div>
