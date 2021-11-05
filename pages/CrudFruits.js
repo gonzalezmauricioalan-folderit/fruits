@@ -7,7 +7,7 @@ import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
 import { useState } from 'react';
-import { addFruit } from '../store/fruits';
+import { addFruit, deleteFruit } from '../store/fruits';
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -21,7 +21,7 @@ const CrudFruits = () => {
     const [editFruitEmoji, setEditFruitEmoji] = useState('')
     const [hideUpdateForm, setHideUpdateForm] = useState(true)
 
-    const {fruits} = useSelector(state => state.fruits)
+    const { fruits } = useSelector(state => state.fruits)
     const dispatch = useDispatch()
 
     const addNewFruit = (e) => {
@@ -33,8 +33,9 @@ const CrudFruits = () => {
         setNewFruitName('')
     }
 
-    const deleteFruit = async (fruitId) => {
-        await db.collection('fruits').doc(fruitId).delete()
+    const deleteFruitOfList = (fruitId) => {
+        // await db.collection('fruits').doc(fruitId).delete()
+        dispatch(deleteFruit({ id: fruitId }))
     }
 
     const showEditFruit = ({ id, name, emoji }) => {
@@ -68,7 +69,7 @@ const CrudFruits = () => {
                             <th>{fruit.name}</th>
                             <th>{fruit.emoji}</th>
                             <th>
-                                <button key={`delete-${fruit.id}`} onClick={() => deleteFruit(fruit.id)}>
+                                <button key={`delete-${fruit.id}`} onClick={() => deleteFruitOfList(fruit.id)}>
                                     <FaTrash style={{ color: '#C70000' }} /></button>
                                 <button key={`update-${fruit.id}`} onClick={() => showEditFruit({
                                     id: fruit.id, name: fruit.data().name, emoji: fruit.data().emoji

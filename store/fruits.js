@@ -6,6 +6,7 @@ const slice = createSlice({
         fruits: [{ name: 'Red', emoji: '¢', id: 1 }],
     },
     reducers: {
+
         addFruit: (state, action) => {
             const newFruit = action.payload.newFruit;
             const id = Math.floor(Math.random()*1000)
@@ -13,32 +14,16 @@ const slice = createSlice({
             state.fruits.push(newFruit)
         },
 
+        deleteFruit: (state, action) => {
+            console.log(`action`, action)
+            const { id } = action.payload
+            console.log(`id`, id)
+            state.fruits = state.fruits.filter(fruit => fruit.id !== id)
+        },
+
     },
 });
 
-export const { addFruit } = slice.actions
+export const { addFruit, deleteFruit } = slice.actions
 
 export const fruitReducer = slice.reducer
-
-// //Actions
-// const { showFruits } = slice.actions
-// export const getFruits = () => async dispatch => {
-//     try {
-//         // const res = await api.post('/api/auth/login/', { fruitName, password })
-//         const initialState = {
-//             fruits: [{ name: 'Red', emoji: '¢', id:'asdnasj14134' }],
-//         }
-//         dispatch(showFruits(initialState));
-//     } catch (e) {
-//         return console.error(e.message);
-//     }
-// }
-
-// export const logout = () => async dispatch => {
-//   try {
-//     // const res = await api.post('/api/auth/logout/')
-//     return dispatch(logoutSuccess())
-//   } catch (e) {
-//     return console.error(e.message);
-//   }
-// }
