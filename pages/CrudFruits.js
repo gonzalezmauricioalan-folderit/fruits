@@ -7,7 +7,7 @@ import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
 import { useState } from 'react';
-import { addFruit, deleteFruit } from '../store/fruits';
+import { addFruit, deleteFruit, editFruit } from '../store/fruits';
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -45,9 +45,10 @@ const CrudFruits = () => {
         setEditFruitName(name)
     }
 
-    const editFruit = async (e) => {
+    const editFruitOfTheList = async (e) => {
         e.preventDefault()
-        await db.collection('fruits').doc(editFruitId).set({ name: editFruitName, emoji: editFruitEmoji })
+        // await db.collection('fruits').doc(editFruitId).set({ name: editFruitName, emoji: editFruitEmoji })
+        dispatch(editFruit({ name: editFruitName, emoji: editFruitEmoji, id: editFruitId }))
     }
 
     // const [fruits, fruitsLoading, error] = useCollection(firebase.firestore().collection('fruits'), {})
@@ -72,7 +73,7 @@ const CrudFruits = () => {
                                 <button key={`delete-${fruit.id}`} onClick={() => deleteFruitOfList(fruit.id)}>
                                     <FaTrash style={{ color: '#C70000' }} /></button>
                                 <button key={`update-${fruit.id}`} onClick={() => showEditFruit({
-                                    id: fruit.id, name: fruit.data().name, emoji: fruit.data().emoji
+                                    id: fruit.id, name: fruit.name, emoji: fruit.emoji
                                 })}>
                                     <FaPen style={{ color: '#6e8c91' }} /></button>
                             </th>
@@ -97,7 +98,7 @@ const CrudFruits = () => {
                 <input type="submit" value="Save Fruit" />
             </form>
 
-            <form onSubmit={editFruit} hidden={hideUpdateForm}>
+            <form onSubmit={editFruitOfTheList} hidden={hideUpdateForm}>
                 <label htmlFor="newFruitName"> Fruit Name</label>
                 <input
                     type="text"
@@ -107,7 +108,7 @@ const CrudFruits = () => {
                 <input
                     type="text"
                     name="newFruitEmoji"
-                    id="newFruitEmoji" onChange={(e) => setNewFruitEmoji(e.target.value)}
+                    id="newFruitEmoji" onChange={(e) => setEditFruitEmoji(e.target.value)}
                     value={editFruitEmoji} />
                 <input type="submit" value="Edit Fruit" />
                 <button onClick={(e) => { e.preventDefault(); setHideUpdateForm(true) }}>Cancel</button>

@@ -15,15 +15,18 @@ const slice = createSlice({
         },
 
         deleteFruit: (state, action) => {
-            console.log(`action`, action)
             const { id } = action.payload
-            console.log(`id`, id)
             state.fruits = state.fruits.filter(fruit => fruit.id !== id)
+        },
+
+        editFruit: (state, action) => {
+            const { id, name, emoji } = action.payload
+            state.fruits = state.fruits.map(fruit => fruit.id === id ? {name, emoji, id} : fruit)
         },
 
     },
 });
 
-export const { addFruit, deleteFruit } = slice.actions
+export const { addFruit, deleteFruit, editFruit } = slice.actions
 
 export const fruitReducer = slice.reducer
