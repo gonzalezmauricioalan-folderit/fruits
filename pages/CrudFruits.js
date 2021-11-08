@@ -4,7 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
 import { useState } from 'react';
-import { addFruit, addFruitsToFirestore, deleteFruit, editFruit } from '../store/fruits';
+import { addFruit, addFruitsToFirestore, deleteFruit, delteFruitFromFirestore, editFruit } from '../store/fruits';
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -32,7 +32,7 @@ const CrudFruits = () => {
 
     const deleteFruitOfList = (fruitId) => {
         // await db.collection('fruits').doc(fruitId).delete()
-        dispatch(deleteFruit({ id: fruitId }))
+        dispatch(delteFruitFromFirestore(fruitId))
     }
 
     const showEditFruit = ({ id, name, emoji }) => {
@@ -67,7 +67,7 @@ const CrudFruits = () => {
                             <th>{fruit.name}</th>
                             <th>{fruit.emoji}</th>
                             <th>
-                                <button key={`delete-${fruit.id}`} onClick={() => deleteFruitOfList(fruit.id)}>
+                                <button key={`delete-${fruit.id}`} onClick={() => { console.log('fruit.id :>> ', fruit.id); deleteFruitOfList(fruit.id) }}>
                                     <FaTrash style={{ color: '#C70000' }} /></button>
                                 <button key={`update-${fruit.id}`} onClick={() => showEditFruit({
                                     id: fruit.id, name: fruit.name, emoji: fruit.emoji

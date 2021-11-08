@@ -12,8 +12,6 @@ const slice = createSlice({
 
         addFruit: (state, action) => {
             const newFruit = action.payload.newFruit;
-            console.log('action :>> ', action);
-            console.log('newFruit :>> ', newFruit);
             state.fruits.push(newFruit)
         },
 
@@ -29,7 +27,6 @@ const slice = createSlice({
 
         updateFruits: (state, action) => {
             const { fruits } = action.payload
-            console.log(`action`, action)
             state.fruits = fruits
         },
 
@@ -45,7 +42,11 @@ export const getFruitsFromFirestore = () => async dispatch => {
     try {
         const db = firebase.firestore()
         const fruitsQuery = await db.collection('fruits').get()
-        const fruits = fruitsQuery.docs.map(doc => doc.data());
+        const fruits = fruitsQuery.docs.map(doc => { 
+            const fruit = doc.data()
+            fruit.id = doc.id
+            return fruit
+         });
         dispatch(updateFruits({ fruits }));
     } catch (e) {
         return console.error(e.message);
@@ -58,8 +59,16 @@ export const addFruitsToFirestore = ({name, emoji}) => async dispatch => {
         const newFruit = {name, emoji}
         const savedFruitInformation = await db.collection('fruits').add(newFruit)
         newFruit.id = savedFruitInformation.id
-        console.log('newFruit :>> ', newFruit);
         dispatch(addFruit({ newFruit }));
+    } catch (e) {
+        return console.error(e.message);
+    }
+}
+export const delteFruitFromFirestore = (id) => async dispatch => {
+    try {
+        const db = firebase.firestore()
+        await db.collection('fruits').doc(id).delete()
+        dispatch(deleteFruit({ id }));
     } catch (e) {
         return console.error(e.message);
     }
