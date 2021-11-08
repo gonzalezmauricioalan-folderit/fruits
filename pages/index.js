@@ -1,4 +1,3 @@
-import styles from '../styles/Home.module.css'
 import firebase from "../firebase/clientApp";
 
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -14,6 +13,7 @@ import { getFruitsFromFirestore } from '../store/fruits';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
+import ListOfVotableFruits from '../components/ListOfVotableFruits';
 
 
 
@@ -29,10 +29,7 @@ export default function Home() {
   // const [fruits, fruitsLoading, fruitsError] = useCollection(firebase.firestore().collection('fruits'), {})
   const { fruits, isLoading } = useSelector(state => state.fruits);
 
-  const db = firebase.firestore();
-  const addVoteDocument = async (vote) => {
-    await db.collection('votes').doc(user.uid).set({ vote })
-  }
+
   return (
     <>
       {loading && <h4>Loading...</h4>}
@@ -40,15 +37,7 @@ export default function Home() {
 
       {user && (
         <>
-          <div className={styles.container} id='fruit-buttons'>
-            <h1>Choice your favorite fruit</h1>
-            {
-              fruits?.map(fruit => (
-                <Button variant='outline-secondary' size='lg'  key={fruit.id} onClick={() => addVoteDocument(fruit.name)}
-                  className={styles.btn}>{fruit.emoji}</Button>
-              ))
-            }
-          </div>
+        <ListOfVotableFruits fruits={fruits} user={user}/>
           <div id='votes'>
             <h2>Votes:</h2>
             {
