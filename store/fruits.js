@@ -65,7 +65,7 @@ export const addFruitsToFirestore = ({name, emoji}) => async dispatch => {
     }
 }
 
-export const delteFruitFromFirestore = (id) => async dispatch => {
+export const deleteFruitFromFirestore = (id) => async dispatch => {
     try {
         const db = firebase.firestore()
         await db.collection('fruits').doc(id).delete()
