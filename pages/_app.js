@@ -4,6 +4,7 @@ import store from '../store'
 
 import { Navbar, Nav, Container } from "react-bootstrap";
 import Link from 'next/link'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function MyApp({ Component, pageProps }) {
   return (

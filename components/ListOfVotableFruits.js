@@ -2,12 +2,8 @@ import firebase from "../firebase/clientApp";
 
 import styles from '../styles/Home.module.css'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Container } from 'react-bootstrap';
-import { Column } from 'react-bootstrap';
-import Row from 'react-bootstrap/Row';
 
 
 const ListOfVotableFruits = ({ fruits, user }) => {

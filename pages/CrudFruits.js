@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
