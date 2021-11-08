@@ -11,7 +11,7 @@ const VotesInformation = ({ fruits }) => {
     return (
         <div>
             <Card className="m-3" >
-                <Card.Header > <h2 class="d-flex justify-content-center">Votes</h2> </Card.Header>
+                <Card.Header > <h2 className="d-flex justify-content-center">Votes</h2> </Card.Header>
                 {
                     fruits?.map(fruit => (
                         <div key={`fruit-vote${fruit.id}`} className="d-flex justify-content-between p-2">
@@ -28,7 +28,7 @@ const VotesInformation = ({ fruits }) => {
                 }
             </Card>
             <Card className="m-3">
-                <Card.Header> <h2 class="d-flex justify-content-center">Votes information</h2> </Card.Header>
+                <Card.Header> <h2 className="d-flex justify-content-center">Votes information</h2> </Card.Header>
                 <Card.Body >
                     {votes?.docs?.map(doc => (
                         <>
