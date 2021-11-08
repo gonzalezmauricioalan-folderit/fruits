@@ -31,6 +31,7 @@ export default function Home() {
 
   return (
     <>
+      
       {loading && <h4>Loading...</h4>}
       {!user && <Auth />}
 
