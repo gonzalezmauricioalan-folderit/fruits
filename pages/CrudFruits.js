@@ -4,7 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
 import { useState } from 'react';
-import { addFruit, deleteFruit, editFruit } from '../store/fruits';
+import { addFruit, addFruitsToFirestore, deleteFruit, editFruit } from '../store/fruits';
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -25,7 +25,7 @@ const CrudFruits = () => {
         e.preventDefault()
         // const a = await db.collection('fruits').add({ emoji: newFruitEmoji, name: newFruitName })
         const newFruit = { emoji: newFruitEmoji, name: newFruitName }
-        dispatch(addFruit({ newFruit }))
+        dispatch(addFruitsToFirestore(newFruit))
         setNewFruitEmoji('')
         setNewFruitName('')
     }

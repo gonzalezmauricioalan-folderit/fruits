@@ -12,8 +12,8 @@ const slice = createSlice({
 
         addFruit: (state, action) => {
             const newFruit = action.payload.newFruit;
-            const id = Math.floor(Math.random() * 1000)
-            newFruit.id = id;
+            console.log('action :>> ', action);
+            console.log('newFruit :>> ', newFruit);
             state.fruits.push(newFruit)
         },
 
@@ -44,10 +44,22 @@ export const fruitReducer = slice.reducer
 export const getFruitsFromFirestore = () => async dispatch => {
     try {
         const db = firebase.firestore()
-        console.log('objecaaaaat')
         const fruitsQuery = await db.collection('fruits').get()
         const fruits = fruitsQuery.docs.map(doc => doc.data());
         dispatch(updateFruits({ fruits }));
+    } catch (e) {
+        return console.error(e.message);
+    }
+}
+
+export const addFruitsToFirestore = ({name, emoji}) => async dispatch => {
+    try {
+        const db = firebase.firestore()
+        const newFruit = {name, emoji}
+        const savedFruitInformation = await db.collection('fruits').add(newFruit)
+        newFruit.id = savedFruitInformation.id
+        console.log('newFruit :>> ', newFruit);
+        dispatch(addFruit({ newFruit }));
     } catch (e) {
         return console.error(e.message);
     }
