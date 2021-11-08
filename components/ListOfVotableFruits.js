@@ -18,7 +18,7 @@ const ListOfVotableFruits = ({ fruits, user }) => {
     }
     return (
         <Card  className="m-3 d-flex">
-            <Card.Header > <h1> Choice your favorite fruit</h1> </Card.Header>
+            <Card.Header > <h1 class="d-flex justify-content-center"> Choice your favorite fruit</h1> </Card.Header>
                     <Card.Body className="d-flex justify-content-around"  >
                         {
                             fruits?.map(fruit => (
