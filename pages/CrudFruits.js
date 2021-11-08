@@ -4,13 +4,13 @@ import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
 import { useState } from 'react';
-import { addFruit, addFruitsToFirestore, deleteFruit, delteFruitFromFirestore, editFruit, editFruitInFirestore } from '../store/fruits';
+import { addFruitsToFirestore, deleteFruitFromFirestore, editFruitInFirestore } from '../store/fruits';
 
 import { useSelector, useDispatch } from 'react-redux'
 
+import Button from 'react-bootstrap/Button';
 
 const CrudFruits = () => {
-    // const db = firebase.firestore()
     const [newFruitName, setNewFruitName] = useState('')
     const [newFruitEmoji, setNewFruitEmoji] = useState('')
     const [editFruitId, setEditFruitId] = useState('')
@@ -23,7 +23,6 @@ const CrudFruits = () => {
 
     const addNewFruit = (e) => {
         e.preventDefault()
-        // const a = await db.collection('fruits').add({ emoji: newFruitEmoji, name: newFruitName })
         const newFruit = { emoji: newFruitEmoji, name: newFruitName }
         dispatch(addFruitsToFirestore(newFruit))
         setNewFruitEmoji('')
@@ -31,8 +30,7 @@ const CrudFruits = () => {
     }
 
     const deleteFruitOfList = (fruitId) => {
-        // await db.collection('fruits').doc(fruitId).delete()
-        dispatch(delteFruitFromFirestore(fruitId))
+        dispatch(deleteFruitFromFirestore(fruitId))
     }
 
     const showEditFruit = ({ id, name, emoji }) => {
@@ -44,11 +42,8 @@ const CrudFruits = () => {
 
     const editFruitOfTheList = async (e) => {
         e.preventDefault()
-        // await db.collection('fruits').doc(editFruitId).set({ name: editFruitName, emoji: editFruitEmoji })
         dispatch(editFruitInFirestore({ name: editFruitName, emoji: editFruitEmoji, id: editFruitId }))
     }
-
-    // const [fruits, fruitsLoading, error] = useCollection(firebase.firestore().collection('fruits'), {})
 
     return (
         <div>
@@ -67,12 +62,12 @@ const CrudFruits = () => {
                             <th>{fruit.name}</th>
                             <th>{fruit.emoji}</th>
                             <th>
-                                <button key={`delete-${fruit.id}`} onClick={() => { console.log('fruit.id :>> ', fruit.id); deleteFruitOfList(fruit.id) }}>
-                                    <FaTrash style={{ color: '#C70000' }} /></button>
-                                <button key={`update-${fruit.id}`} onClick={() => showEditFruit({
+                                <Button variant='danger' key={`delete-${fruit.id}`} onClick={() => { console.log('fruit.id :>> ', fruit.id); deleteFruitOfList(fruit.id) }}>
+                                    <FaTrash style={{ color: '#C70000' }} /></Button>
+                                <Button variant='success' key={`update-${fruit.id}`} onClick={() => showEditFruit({
                                     id: fruit.id, name: fruit.name, emoji: fruit.emoji
                                 })}>
-                                    <FaPen style={{ color: '#6e8c91' }} /></button>
+                                    <FaPen style={{ color: '#6e8c91' }} /></Button>
                             </th>
                         </tr>
                     )
