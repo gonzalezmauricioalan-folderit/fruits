@@ -9,7 +9,7 @@ import { addFruitsToFirestore, deleteFruitFromFirestore, editFruitInFirestore } 
 import { useSelector, useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button';
-import { Table } from 'react-bootstrap';
+import { Table, Form, Card } from 'react-bootstrap';
 
 const CrudFruits = () => {
     const [newFruitName, setNewFruitName] = useState('')
@@ -64,12 +64,12 @@ const CrudFruits = () => {
                             <th> <p className="d-flex justify-content-center"> {fruit.emoji}</p> </th>
                             <th >
                                 <div className="d-flex justify-content-center p-1">
-                                <Button variant='danger' key={`delete-${fruit.id}`} onClick={() => deleteFruitOfList(fruit.id)} className="m-1">
-                                    <FaTrash style={{ color: '#C70000' }} /></Button>
-                                <Button variant='success' className="m-1" key={`update-${fruit.id}`} onClick={() => showEditFruit({
-                                    id: fruit.id, name: fruit.name, emoji: fruit.emoji
-                                })}>
-                                    <FaPen style={{ color: '#6e8c91' }} /></Button>
+                                    <Button variant='danger' key={`delete-${fruit.id}`} onClick={() => deleteFruitOfList(fruit.id)} className="m-1">
+                                        <FaTrash style={{ color: '#C70000' }} /></Button>
+                                    <Button variant='success' className="m-1" key={`update-${fruit.id}`} onClick={() => showEditFruit({
+                                        id: fruit.id, name: fruit.name, emoji: fruit.emoji
+                                    })}>
+                                        <FaPen style={{ color: '#6e8c91' }} /></Button>
                                 </div>
                             </th>
                         </tr>
@@ -78,40 +78,63 @@ const CrudFruits = () => {
                 </tbody>
             </Table>
 
-            <form onSubmit={addNewFruit}>
-                <label htmlFor="newFruitName"> Fruit Name</label>
-                <input
-                    type="text"
-                    name="newFruitName" id="newFruitName" onChange={(e) => setNewFruitName(e.target.value)}
-                    value={newFruitName} />
-                <label htmlFor="newFruitEmoji">Fruit Emoji</label>
-                <input
-                    type="text"
-                    name="newFruitEmoji"
-                    id="newFruitEmoji" onChange={(e) => setNewFruitEmoji(e.target.value)}
-                    value={newFruitEmoji} />
-                <input type="submit" value="Save Fruit" />
-            </form>
+            <Card className="mb-2">
+                <Card.Header> <h4>Add a new fruit</h4> </Card.Header>
+                <Card.Body>
+                    <Form onSubmit={addNewFruit} className="d-flex flex-row m-2">
+                        <Form.Group className="m-1">
+                            <Form.Label htmlFor="newFruitName"> Fruit Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="newFruitName" id="newFruitName" onChange={(e) => setNewFruitName(e.target.value)}
+                                value={newFruitName} />
+                        </Form.Group>
+                        <Form.Group className="m-1">
+                            <Form.Label htmlFor="newFruitEmoji">Fruit Emoji</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="newFruitEmoji"
+                                id="newFruitEmoji" onChange={(e) => setNewFruitEmoji(e.target.value)}
+                                value={newFruitEmoji} />
+                        </Form.Group>
+                        <Form.Group className="m-1 d-flex align-items-end p-1">
+                            <Button size="sm" type="submit" variant="primary">Save Fruit</Button>
+                        </Form.Group>
+                    </Form>
+                </Card.Body>
+            </Card>
 
-            <form onSubmit={editFruitOfTheList} hidden={hideUpdateForm}>
-                <label htmlFor="newFruitName"> Fruit Name</label>
-                <input
-                    type="text"
-                    name="editFruitName" id="editFruitName" onChange={(e) => setEditFruitName(e.target.value)}
-                    value={editFruitName} />
-                <label htmlFor="newFruitEmoji">Fruit Emoji</label>
-                <input
-                    type="text"
-                    name="newFruitEmoji"
-                    id="newFruitEmoji" onChange={(e) => setEditFruitEmoji(e.target.value)}
-                    value={editFruitEmoji} />
-                <input type="submit" value="Edit Fruit" />
-                <button onClick={(e) => { e.preventDefault(); setHideUpdateForm(true) }}>Cancel</button>
-            </form>
-            <Link href="/">
-                <a >&#60;- Back to home</a>
+
+            <Card hidden={hideUpdateForm} className="mt-2 mb-2">
+                <Card.Header> <h4>Edit fruit</h4></Card.Header>
+                <Card.Body>
+                    <Form onSubmit={editFruitOfTheList} >
+                        <Form.Group >
+                            <Form.Label htmlFor="newFruitName"> Fruit Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="editFruitName" id="editFruitName" onChange={(e) => setEditFruitName(e.target.value)}
+                                value={editFruitName} />
+                        </Form.Group>
+                        <Form.Group className="m-1">
+                            <Form.Label htmlFor="newFruitEmoji">Fruit Emoji</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="newFruitEmoji"
+                                id="newFruitEmoji" onChange={(e) => setEditFruitEmoji(e.target.value)}
+                                value={editFruitEmoji} />
+                        </Form.Group>
+                        <Button className="m-1" type="submit" size="sm" variant="success">Edit Fruit</Button>
+                        <Button variant="secondary" size="sm" onClick={(e) => { e.preventDefault(); setHideUpdateForm(true) }}>Cancel</Button>
+                    </Form>
+
+                </Card.Body>
+            </Card>
+
+            <Link href="/" passHref>
+                <Button> Back to home</Button>
             </Link>
-        </div>
+        </div >
     )
 }
 
