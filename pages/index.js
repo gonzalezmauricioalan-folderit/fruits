@@ -12,6 +12,10 @@ import Link from 'next/link'
 import { useSelector, useDispatch } from "react-redux";
 import { getFruitsFromFirestore } from '../store/fruits';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+
+
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -40,8 +44,8 @@ export default function Home() {
             <h1>Choice your favorite fruit</h1>
             {
               fruits?.map(fruit => (
-                <button key={fruit.id} onClick={() => addVoteDocument(fruit.name)}
-                  className={styles.btn}>{fruit.emoji}</button>
+                <Button variant='outline-secondary' size='lg'  key={fruit.id} onClick={() => addVoteDocument(fruit.name)}
+                  className={styles.btn}>{fruit.emoji}</Button>
               ))
             }
           </div>
@@ -60,7 +64,7 @@ export default function Home() {
             </>
           ))}
           <Link href="/CrudFruits" passHref>
-            <button>CRUD of fruits</button>
+            <Button variant='secondary'>CRUD of fruits</Button>
           </Link>
         </>)
       }
