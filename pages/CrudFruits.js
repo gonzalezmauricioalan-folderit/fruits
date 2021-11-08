@@ -9,6 +9,7 @@ import { addFruitsToFirestore, deleteFruitFromFirestore, editFruitInFirestore } 
 import { useSelector, useDispatch } from 'react-redux'
 
 import Button from 'react-bootstrap/Button';
+import { Table } from 'react-bootstrap';
 
 const CrudFruits = () => {
     const [newFruitName, setNewFruitName] = useState('')
@@ -47,33 +48,35 @@ const CrudFruits = () => {
 
     return (
         <div>
-            <table>
+            <Table striped bordered hover >
                 <thead>
                     <tr>
-                        <th>Fruit Name</th>
-                        <th>Fruit Emoji</th>
-                        <th>crud operations</th>
+                        <th><p className="d-flex justify-content-center">Fruit Name</p> </th>
+                        <th><p className="d-flex justify-content-center">Fruit Emoji</p> </th>
+                        <th><p className="d-flex justify-content-center">Crud operations</p> </th>
                     </tr>
                 </thead>
                 <tbody>
                     {fruits?.map(fruit =>
                     (
                         <tr key={fruit.id}>
-                            <th>{fruit.name}</th>
-                            <th>{fruit.emoji}</th>
-                            <th>
-                                <Button variant='danger' key={`delete-${fruit.id}`} onClick={() => { console.log('fruit.id :>> ', fruit.id); deleteFruitOfList(fruit.id) }}>
+                            <th> <p className="d-flex justify-content-center"> {fruit.name}</p> </th>
+                            <th> <p className="d-flex justify-content-center"> {fruit.emoji}</p> </th>
+                            <th >
+                                <div className="d-flex justify-content-center p-1">
+                                <Button variant='danger' key={`delete-${fruit.id}`} onClick={() => deleteFruitOfList(fruit.id)} className="m-1">
                                     <FaTrash style={{ color: '#C70000' }} /></Button>
-                                <Button variant='success' key={`update-${fruit.id}`} onClick={() => showEditFruit({
+                                <Button variant='success' className="m-1" key={`update-${fruit.id}`} onClick={() => showEditFruit({
                                     id: fruit.id, name: fruit.name, emoji: fruit.emoji
                                 })}>
                                     <FaPen style={{ color: '#6e8c91' }} /></Button>
+                                </div>
                             </th>
                         </tr>
                     )
                     )}
                 </tbody>
-            </table>
+            </Table>
 
             <form onSubmit={addNewFruit}>
                 <label htmlFor="newFruitName"> Fruit Name</label>
