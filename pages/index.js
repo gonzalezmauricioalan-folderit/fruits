@@ -39,9 +39,6 @@ export default function Home() {
         <>
           <ListOfVotableFruits fruits={fruits} user={user} />
           <VotesInformation fruits={fruits} />
-          <Link href="/CrudFruits" passHref>
-            <Button variant='secondary'>CRUD of fruits</Button>
-          </Link>
         </>)
       }
     </>

@@ -131,9 +131,6 @@ const CrudFruits = () => {
                 </Card.Body>
             </Card>
 
-            <Link href="/" passHref>
-                <Button> Back to home</Button>
-            </Link>
         </div >
     )
 }
