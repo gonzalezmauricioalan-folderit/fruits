@@ -64,11 +64,22 @@ export const addFruitsToFirestore = ({name, emoji}) => async dispatch => {
         return console.error(e.message);
     }
 }
+
 export const delteFruitFromFirestore = (id) => async dispatch => {
     try {
         const db = firebase.firestore()
         await db.collection('fruits').doc(id).delete()
         dispatch(deleteFruit({ id }));
+    } catch (e) {
+        return console.error(e.message);
+    }
+}
+
+export const editFruitInFirestore = ({ id, name, emoji }) => async dispatch => {
+    try {
+        const db = firebase.firestore()
+        await db.collection('fruits').doc(id).set({name, emoji})
+        dispatch(editFruit({ id, name, emoji }));
     } catch (e) {
         return console.error(e.message);
     }

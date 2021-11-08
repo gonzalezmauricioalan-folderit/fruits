@@ -4,7 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
 import { useState } from 'react';
-import { addFruit, addFruitsToFirestore, deleteFruit, delteFruitFromFirestore, editFruit } from '../store/fruits';
+import { addFruit, addFruitsToFirestore, deleteFruit, delteFruitFromFirestore, editFruit, editFruitInFirestore } from '../store/fruits';
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -45,7 +45,7 @@ const CrudFruits = () => {
     const editFruitOfTheList = async (e) => {
         e.preventDefault()
         // await db.collection('fruits').doc(editFruitId).set({ name: editFruitName, emoji: editFruitEmoji })
-        dispatch(editFruit({ name: editFruitName, emoji: editFruitEmoji, id: editFruitId }))
+        dispatch(editFruitInFirestore({ name: editFruitName, emoji: editFruitEmoji, id: editFruitId }))
     }
 
     // const [fruits, fruitsLoading, error] = useCollection(firebase.firestore().collection('fruits'), {})
